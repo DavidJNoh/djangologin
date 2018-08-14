@@ -1,0 +1,17 @@
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <h1>Congrats you are logged in {{stuff.first_name}}!</h1>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <a style="display: block;" href="/clear"><button>Go Back</button></a>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Login and Registration</h1>
+        <div style="width:35%; margin:10px 100px; display: inline-block;">
+            <h2>Register Here!</h2>
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <h3>First Name:</h3>
+                <input type=text name=first_name value="{{ request.session.first_name }}" style="width: 80%; height: 30px;">
+                <h3>Last Name:</h3>
+                <input type=text name=last_name value="{{ request.session.last_name }}" style="width: 80%; height: 30px;">
+                <h3>Email:</h3>
+                <input type=email name=email value="{{ request.session.email }}" style="width: 80%; height: 30px;">
+                <h3>Password:</h3>
+                <input type=text name=password style="width: 80%; height: 30px;">
+                <h3>Confirm Password:</h3>
+                <input type=text name=confirmpassword style="width: 80%; height: 30px;">
+                <button style="display: block; margin-top: 10px;">Register</button>
+            </form>
+        </div>
+        <div style="width:35%; margin:10px; display:inline-block; vertical-align: top;">
+            <h2>Login Here!</h2>
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <h3>Email:</h3>
+                <input type=text name=email style="width: 80%; height: 30px;">
+                <h3>Password:</h3>
+                <input type=text name=password style="width: 80%; height: 30px;">
+                <button style="display: block; margin-top: 10px;">Login</button>
+            </form>
+            {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+            <a href="/clear"><Button>Clear</Button></a>
+        </div>
+        
+
+    </body>
+</html>
