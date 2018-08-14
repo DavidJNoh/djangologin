@@ -20,6 +20,13 @@ def register(request):
         request.session['first_name'] = request.POST['first_name']
         request.session['last_name'] = request.POST['last_name']
         request.session['email'] = request.POST['email']
+
+        EmailExists= User.objects.filter(email=request.POST['email'])
+        if not len(EmailExists) == 0:
+            print("email exists error")
+            messages.error(request, "Email " + request.POST['email'] + " is already registered")
+            return redirect('/')
+
         if len(errors):
             for key, value in errors.items():
                 messages.error(request, value, extra_tags=key)
@@ -39,17 +46,18 @@ def register(request):
 def login(request):
     if request.method =="POST":
         email = request.POST['email']
-        user = User.objects.get(email = email)
-        if user:
-            if bcrypt.checkpw(request.POST['password'].encode(), user.password.encode()):
-                id= user.id
-                messages.success(request, "Login Success")
-                request.session['user_id'] = id
-                return redirect('/success')
-            else:
-                messages.error(request, "Login Fail")
-                return redirect("/")
-        else:
+        try:
+            user = User.objects.get(email = email)
+            if user:
+                if bcrypt.checkpw(request.POST['password'].encode(), user.password.encode()):
+                    id= user.id
+                    messages.success(request, "Login Success")
+                    request.session['user_id'] = id
+                    return redirect('/success')
+                else:
+                    messages.error(request, "Login Fail")
+                    return redirect("/")
+        except:
             messages.error(request, "Login Fail")
             return redirect("/")
     return redirect("/")

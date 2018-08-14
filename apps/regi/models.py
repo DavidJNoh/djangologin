@@ -9,6 +9,7 @@ PW_REGEX = re.compile(r'^(?=.*\d+)(?=.*[A-Z])[0-9a-zA-Z!@#$%]{8,255}$')
 class Manager(models.Manager):
     def validator(self, postData):
         x = {}
+
         if len(postData['first_name']) == 0 :
             x['first_name']= "First name must not be empty"
         if len(postData['first_name']) > 255 :
@@ -23,8 +24,6 @@ class Manager(models.Manager):
             x['email']= "Email must not be empty"
         if len(postData['email']) > 255 :
             x['email']= "Email can not be more than 255 characters"
-        elif not EMAIL_REGEX.match(postData['email']):             
-            x['email']= "Invalid Email Address!"
 
         if len(postData['password']) < 8 :
             x['password']= "Password must be at least 8 characters"
